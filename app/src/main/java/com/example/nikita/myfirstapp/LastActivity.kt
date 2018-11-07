@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.android.synthetic.main.activity_last.*
-import java.lang.Integer.parseInt
 
 class LastActivity : AppCompatActivity() {
 
@@ -15,21 +14,19 @@ class LastActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_last)
 
-        val score = intent.getStringExtra("score")
-        score_text.text = "Твой результат: $score очков!"
+        val score = intent.getIntExtra("score", 0)
+        score_text.text = "Твой результат:\n$score очков!"
 
-        val rating = parseInt(score)
-        if (rating < 50) {
-            rating_text.text = "Слабовато!"
-        } else if (rating >= 50) {
-            rating_text.text = "Недурно!"
-        } else if (rating >= 100) {
-            rating_text.text = "Читер!"
+        when {
+            score < 50 -> rating_text.text = "Слабовато!"
+            score >= 50 -> rating_text.text = "Недурно!"
+            score >= 100 -> rating_text.text = "Читер!"
         }
     }
 
     fun resetMe(view: View) {
-        val resetIntent = Intent(this, SecondActivity::class.java)
+        val resetIntent = Intent(applicationContext, SecondActivity::class.java)
         startActivity(resetIntent)
+        finish()
     }
 }

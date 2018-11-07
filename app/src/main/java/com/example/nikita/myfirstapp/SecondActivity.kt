@@ -9,34 +9,31 @@ import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
 
+    private var count = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
+        count_text.text = "0"
+
         val timeMe = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timer_text.text = ("У тебя осталось: " + millisUntilFinished/1000 + " секунд!")
+                timer_text.text = "У тебя осталось:\n${millisUntilFinished / 1000} секунд!"
             }
 
             override fun onFinish() {
                 val secondIntent = Intent(applicationContext, LastActivity::class.java)
-
-                secondIntent.putExtra("score", count_text.text)
-
+                secondIntent.putExtra("score", count)
                 startActivity(secondIntent)
+                finish()
             }
-
         }
-
         timeMe.start()
     }
 
     fun countMe(view: View) {
-        val countString = count_text.text.toString()
-
-        var count: Int = Integer.parseInt(countString)
         count++
-
         count_text.text = count.toString()
     }
 }
